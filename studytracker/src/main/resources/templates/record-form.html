@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!--
+        modeがeditなら「学習記録の編集」、
+        それ以外なら「学習記録の登録」と表示します。
+    -->
+    <title th:text="${mode == 'edit'}
+            ? '学習記録の編集'
+            : '学習記録の登録'">
+        学習記録
+    </title>
+</head>
+
+<body>
+
+    <!-- 登録と編集で見出しを切り替えます -->
+    <h1 th:text="${mode == 'edit'}
+            ? '学習記録の編集'
+            : '学習記録の登録'">
+        学習記録
+    </h1>
+
+    <!--
+        編集の場合：
+        /records/{id}/updateへ送信します。
+
+        新規登録の場合：
+        /recordsへ送信します。
+    -->
+    <form th:action="${mode == 'edit'}
+            ? @{/records/{id}/update(id=${studyRecord.id})}
+            : @{/records}"
+          th:object="${studyRecord}"
+          method="post">
+
+        <div>
+            <label for="studyDate">学習日</label>
+
+            <input type="date"
+                   id="studyDate"
+                   th:field="*{studyDate}"
+                   required>
+        </div>
+
+        <div>
+            <label for="subject">科目</label>
+
+            <input type="text"
+                   id="subject"
+                   th:field="*{subject}"
+                   placeholder="例：アルゴリズム"
+                   required>
+        </div>
+
+        <div>
+            <label for="questionCount">回答数</label>
+
+            <input type="number"
+                   id="questionCount"
+                   th:field="*{questionCount}"
+                   min="0"
+                   required>
+        </div>
+
+        <div>
+            <label for="correctCount">正解数</label>
+
+            <input type="number"
+                   id="correctCount"
+                   th:field="*{correctCount}"
+                   min="0"
+                   required>
+        </div>
+
+        <div>
+            <label for="studyMinutes">学習時間（分）</label>
+
+            <input type="number"
+                   id="studyMinutes"
+                   th:field="*{studyMinutes}"
+                   min="0"
+                   required>
+        </div>
+
+        <div>
+            <label for="memo">メモ</label>
+
+            <textarea id="memo"
+                      th:field="*{memo}"
+                      rows="4"
+                      cols="40"
+                      placeholder="学習内容や間違えた原因を入力"></textarea>
+        </div>
+
+        <div>
+            <!-- 登録と編集でボタン名を切り替えます -->
+            <button type="submit"
+                    th:text="${mode == 'edit'}
+                            ? '更新する'
+                            : '登録する'">
+                保存する
+            </button>
+        </div>
+
+    </form>
+
+    <p>
+        <a th:href="@{/records}">
+            学習記録一覧へ戻る
+        </a>
+    </p>
+
+    <p>
+        <a th:href="@{/}">
+            トップ画面へ戻る
+        </a>
+    </p>
+
+</body>
+</html>
