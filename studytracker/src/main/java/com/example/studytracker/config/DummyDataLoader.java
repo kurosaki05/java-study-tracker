@@ -37,9 +37,10 @@ public class DummyDataLoader {
              *
              * これにより、同じデータが何度も登録されるのを防ぎます。
              */
-            //if (repository.count() > 0) {
-            //    return;
-            //}
+            if (repository.count() > 0) {
+                return;
+            }
+            System.out.println("★★★★ DummyDataLoader 実行開始 ★★★★");
 
             repository.save(createRecord(
                     LocalDate.of(2026, 10, 1),
@@ -130,6 +131,8 @@ public class DummyDataLoader {
                     60,
                     "CPUとメモリの関係を復習"
             ));
+
+                System.out.println("★★★★ DummyDataLoader 実行終了 ★★★★");
         };
     }
 

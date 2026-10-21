@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+// 入力チェック（バリデーション）を実行するためのアノテーション
+import jakarta.validation.Valid;
+
+// 入力チェック結果を受け取るクラス
+import org.springframework.validation.BindingResult;
+
 /**
  * 学習記録に関する画面表示と処理を担当するControllerです。
  *
@@ -102,7 +108,14 @@ public class StudyRecordController {
      * @return 登録後の移動先
      */
     @PostMapping("/records")
-    public String saveRecord(StudyRecord studyRecord) {
+    public String saveRecord(@Valid StudyRecord studyRecord, 
+        BindingResult bindingResult) {
+
+        // 入力チェックに失敗した場合
+        if (bindingResult.hasErrors()) {
+            // 入力フォームを再表示します
+            return "record-form";
+        }       
 
         // 学習記録をデータベースへ保存します
         studyRecordRepository.save(studyRecord);

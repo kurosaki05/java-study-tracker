@@ -14,6 +14,10 @@ import jakarta.persistence.GenerationType;
 // データベース上の主キーを指定するアノテーション
 import jakarta.persistence.Id;
 
+// 数値の最小値をチェックするアノテーション
+import jakarta.validation.constraints.Min;
+// 文字列が空でないことをチェックするアノテーション
+import jakarta.validation.constraints.NotBlank;
 /**
  * 学習記録を表すクラスです。
  *
@@ -60,34 +64,38 @@ public class StudyRecord {
     private LocalDate studyDate;
 
     /**
-     * 学習した科目です。
+     * 学習した科目です。  科目は必須入力
      *
      * String型は、文字列を扱うための型です。
      * 例：アルゴリズム、データベース、ネットワーク
      */
-    private String subject;
+    @NotBlank(message = "科目を入力してください")
+        private String subject;
 
     /**
-     * 回答した問題数です。
+     * 回答した問題数です。 回答数は0以上の整数である必要があります。
      *
      * int型は、整数を扱う基本データ型です。
      * 例：50問
      */
+    @Min(value = 0, message = "回答数は0以上で入力してください")
     private int questionCount;
 
     /**
-     * 正解した問題数です。
+     * 正解した問題数です。 正解数は0以上
      *
      * 例：40問
      */
+    @Min(value = 0, message = "正解数は0以上で入力してください")
     private int correctCount;
 
     /**
-     * 学習時間です。
+     * 学習時間です。 学習時間は0以上
      *
      * 単位は「分」とします。
      * 例：90分
      */
+    @Min(value = 0, message = "学習時間は0以上で入力してください")
     private int studyMinutes;
 
     /**
